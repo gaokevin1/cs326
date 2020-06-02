@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+run_tests=''
+running_all=false
+export TEST_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+if [[ -z ${@} ]]; then
+    running_all=true
+    run_tests=$(ls -1 ./tests/??-*-*.sh);
+fi
+
+for num in ${@}; do 
+    test_name=$(printf "%02d" "${num}")
+    test_file=$(ls -1 ./tests/${test_name}-*-*.sh)
+    run_tests="${run_tests}${test_file}"$'\n'
+done
+
+points=0
+total_points=0
+echo "Running Tests:"
+for test in ${run_tests}; do
+    test_file_name=$(basename "${test}")
+    test_num="${test_file_name%%-*}"
+    test_pts="${test_file_name##*-}"
+    test_pts="${test_pts/.sh/}"
+    test_name="${test_file_name%-*}"
+    test_name="${test_name:3}"
+    test_name="${test_name//-/ }"
+    printf " * %s %-20s [%s pts]" "${test_num}" "${test_name:0:20}" "${test_pts}"
+    ${test}
+    if [[ $? -ne 0 ]]; then
+        echo "  [ FAIL ]"
+    else
+        echo "  [  OK  ]"
+        (( points += test_pts ))
+    fi
+    (( total_points += test_pts ))
+done
+
+if [[ ${running_all} == true ]]; then
+    perc=$(awk '{ printf("%.1f\n", ($1 / $2) * 100) }' \
+        <<< "${points} ${total_points}")
+    echo "Execution complete. [${points}/${total_points} pts] (${perc}%)"
+
+    if [[ ${points} -eq ${total_points} ]]; then
+        cat <<EOM
+
+ ___________________
+< Yeeeeeeeeeeeeeee! >
+ -------------------
+        \\   ^__^
+         \\  (**)\\_______
+            (__)\\       )\\/\\
+             U  ||----w |
+                ||     ||
+EOM
+    fi
+fi
+
+cat "${TEST_DIR}/"test.*.md > "${TEST_DIR}/../test-output.md"

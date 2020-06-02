@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+port=${1}
+output="${TMPDIR:-/tmp}/www.test.$$.$RANDOM.out"
+$TEST_DIR/../www "${port}" "${TEST_DIR}/html" &> "${output}"
+echo "Server process terminated."
+

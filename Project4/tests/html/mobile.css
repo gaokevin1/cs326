@@ -1,0 +1,36 @@
+html {
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+    font-size: 80%;
+}
+
+#nameplate {
+    padding: 0 0.75em 0 0.75em;
+}
+
+#first_name:after {
+    content: "";
+}
+
+#last_name {
+    display: none;
+}
+
+nav #home {
+    display: none;
+}
+
+article {
+    padding: 0 0.75em;
+}
+
+code, pre {
+    font-size: 85%;
+}
+
+pre {
+    margin: 0.75em 0;
+    padding: 0.25em;
+}
