@@ -1,7 +1,5 @@
 # Project 4: Web Server
 
-See: https://www.cs.usfca.edu/~mmalensek/cs326/assignments/project-4.html 
-
 ## Testing
 
 To execute the test cases, use `make test`. To pull in updated test cases, run `make testupdate`. You can also run a specific test case instead of all of them:
